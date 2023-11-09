@@ -1,0 +1,31 @@
+general {
+	output_format = none
+	interval = 5
+	separator = " / "
+}
+
+order += "wireless _first_"
+order += "battery all"
+order += "volume master"
+order += "tztime local"
+
+wireless _first_ {
+	format_up = "W: %ip"
+	format_down = "W: offline"
+}
+
+battery all {
+	format = "%status %percentage"
+}
+
+volume master {
+	format = "%volume"
+	format_muted = "mute"
+	device = "default"
+	mixer = "Master"
+	mixer_idx = 0
+}
+
+tztime local {
+	format = "%Y-%m-%d %H:%M:%S "
+}

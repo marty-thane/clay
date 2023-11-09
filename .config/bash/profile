@@ -1,0 +1,21 @@
+export XDG_CONFIG_HOME="$HOME/.config"    
+export XDG_DATA_HOME="$HOME/.local/share"    
+export XDG_CACHE_HOME="$HOME/.cache"    
+
+export PATH="$PATH:$HOME/.local/bin"
+export INPUTRC="$XDG_CONFIG_HOME/bash/inputrc"
+export HISTFILE="$XDG_DATA_HOME/history"
+export HISTSIZE="500"
+
+export GNUPGHOME="$XDG_DATA_HOME/gnupg"
+export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
+export LESSHISTFILE="-"
+
+export LANG="en_US.UTF-8"
+export BROWSER="icecat"
+export EDITOR="nvim"
+export TERMINAL="alacritty"
+
+if [ -z "$WAYLAND_DISPLAY" ] && [ "$(tty)" = "/dev/tty1" ]; then
+	exec sway
+fi

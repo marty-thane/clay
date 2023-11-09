@@ -1,0 +1,15 @@
+#!/bin/sh
+set -e
+
+src='https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts'
+list="$XDG_DATA_HOME/blocklist"
+
+[ -f $list ] || wget -nv -O $list $src
+
+if [ -f /etc/hosts ]; then
+	sudo rm /etc/hosts
+	echo "block: disabled"
+else
+	sudo ln -s $list /etc/hosts
+	echo "block: enabled"
+fi

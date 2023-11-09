@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+
+vault="$XDG_DATA_HOME/bookmarks"
+
+grep -v '^#' $vault | dmenu -l 30 -i $@ | wtype -

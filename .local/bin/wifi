@@ -1,0 +1,30 @@
+#!/bin/sh
+set -eu
+
+CMD=$1
+case $CMD in
+	on)
+		nmcli radio wifi on
+		nmcli radio wifi
+		;;
+	off)
+		nmcli radio wifi off
+		nmcli radio wifi
+		;;
+	status)
+		nmcli dev status
+		;;
+	list)
+		nmcli dev wifi list
+		;;
+	connect)
+		ARG=$2
+		if nmcli con show | grep -q "$ARG"; then
+			nmcli dev wifi connect "$ARG"
+		else
+			nmcli dev wifi connect "$ARG" --ask
+		fi
+		;;
+	*)
+		echo 'usage: wifi on | off | status | list | connect <SSID>'
+esac

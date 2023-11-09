@@ -1,0 +1,7 @@
+#!/bin/sh
+set -u
+
+SOURCE=$1
+TARGET=$2
+
+ffmpeg -i $SOURCE -y -f mp4 -an -c:v libx264 -crf 30 -vf scale=1280:720 -preset medium -map_metadata 0 $TARGET < /dev/null

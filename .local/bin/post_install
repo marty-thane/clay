@@ -1,0 +1,46 @@
+#!/bin/sh
+set -ex
+
+# THIS SCRIPT IS UNTESTED! It is recommended to manually do every task as a
+# non-root user. This way a proper functioning of your system is ensured.
+
+# install autotiling
+pip install autotiling
+
+# setup GPG for use with pass
+mkdir -p .local/share/gnupg
+chmod 700 .local/share/gnupg
+gpg --full-gen-key
+chmod 600 .local/share/gnupg/*
+
+# make user dirs
+xdg-user-dirs --force
+
+# update file index
+sudo updatedb
+
+# fix ranger error on trash
+if ( dnf repoquery ranger | grep -iq 'ranger-0:1.9.3' ); then
+	sudo ed -s /usr/lib/python3.11/site-packages/ranger/core/actions.py << EOF
+459c
+        filenames = [f if isinstance(f, str) else f.path for f in files]
+.
+wq
+EOF
+fi
+
+# fix passmenu type
+if ( sed -n 12,13p /usr/bin/passmenu | grep -q -e 'dmenu=' -e 'xdotool=' ); then
+	sudo ed -s /usr/bin/passmenu << EOF
+12c
+	dmenu=dmenu
+.
+13c 
+	xdotool="wtype -"
+.
+wq
+EOF
+fi
+
+# addons for icecat
+icecat .local/share/clay/*.xpi

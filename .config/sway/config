@@ -1,0 +1,112 @@
+font monospace 9
+gaps inner 9
+default_border pixel 2
+# output * bg #767676 solid_color
+output * bg ~/Pictures/ondroid2.jpg fill
+
+set $mod Mod1
+
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+bindsym $mod+Shift+h move left 21
+bindsym $mod+Shift+j move down 21
+bindsym $mod+Shift+k move up 21
+bindsym $mod+Shift+l move right 21
+
+bindsym $mod+Control+h resize shrink width 21
+bindsym $mod+Control+j resize grow height 21
+bindsym $mod+Control+k resize shrink height 21
+bindsym $mod+Control+l resize grow width 21
+
+bindsym $mod+plus workspace number 1
+bindsym $mod+ecaron workspace number 2
+bindsym $mod+scaron workspace number 3
+bindsym $mod+ccaron workspace number 4
+
+bindsym $mod+Shift+plus move container to workspace number 1
+bindsym $mod+Shift+ecaron move container to workspace number 2
+bindsym $mod+Shift+scaron move container to workspace number 3
+bindsym $mod+Shift+ccaron move container to workspace number 4
+
+bindsym $mod+q kill
+bindsym $mod+w fullscreen
+
+bindsym $mod+r reload
+bindsym $mod+Shift+e exit
+
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+floating_modifier $mod normal
+
+bindsym $mod+Return exec --no-startup-id $TERMINAL
+bindsym $mod+Shift+Return exec --no-startup-id $BROWSER
+bindsym $mod+n exec --no-startup-id $TERMINAL -e ranger
+bindsym $mod+b exec --no-startup-id $TERMINAL -e newsboat
+bindsym $mod+p exec --no-startup-id dmenu_run -p 'command:'
+bindsym $mod+Shift+p exec --no-startup-id passmenu --type -p 'password:' -sb '$red'
+bindsym $mod+Ctrl+p exec --no-startup-id bookmenu -p 'bookmark:' -sb '$green'
+
+bindsym $mod+F1 exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym $mod+F2 exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym $mod+F3 exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym $mod+F5 exec --no-startup-id airplane
+bindsym $mod+F9 exec --no-startup-id $TERMINAL -e nvim .config/sway/config
+bindsym $mod+F11 exec --no-startup-id light -U 10
+bindsym $mod+F12 exec --no-startup-id light -A 10
+
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym XF86MonBrightnessDown exec --no-startup-id light -U 10
+bindsym XF86MonBrightnessUp exec --no-startup-id light -A 10
+
+set $black #1d1f21
+set $white #c5c8c6
+set $red   #cc6666
+set $blue  #81a2be
+set $green #b5bd68
+
+client.focused          $blue  $blue  $white $blue
+client.focused_inactive $black $black $white $black
+client.urgent           $red   $red   $white $red
+
+for_window [app_id="org.keepassxc.KeePassXC"] floating enable
+for_window [app_id="nm-connection-editor"] floating enable
+for_window [app_id="pavucontrol"] floating enable
+for_window [window_role="pop-up"] floating enable
+
+bar {
+    status_command i3status
+    position top
+    height 21
+    colors {
+        statusline $white
+        background $black
+		focused_workspace  $blue  $blue  $black
+		inactive_workspace $black $black $white
+		urgent_workspace   $red   $red   $white
+    }
+}
+
+input type:keyboard {
+	xkb_layout "cz"
+	xkb_numlock enabled
+	xkb_options "caps:swapescape"
+	repeat_delay 250
+	repeat_rate 30
+}
+
+input type:touchpad {
+	tap enabled
+	natural_scroll enabled
+}
+
+exec_always --no-startup-id autotiling -l 2
+# exec_always --no-startup-id devmon --unmount-on-exit
+exec_always --no-startup-id pipewire-pulse
+exec --no-startup-id gammastep -O 4500
+
+include /etc/sway/config.d/*

@@ -1,0 +1,49 @@
+#!/bin/sh
+
+# set path for internal files
+data=".local/share/clay"
+
+# set shell options
+# show executed commands, exit at failure
+set -ex
+
+# redirect stdout to /dev/null here,
+# comment out when debugging
+{
+
+# update, enable rpm fusion
+dnf -y update
+dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+dnf -y install https://download1.rpmfusion.org/free/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+
+# install packages
+dnf -y install $(cat $data/progs)
+dnf -y group install "C Development Tools and Libraries"
+make -C .local/src/dmenu-5.0/ install clean
+make -C .local/src/farbfeld-4/ install clean
+make -C .local/src/sent-1/ install clean
+
+# enable/disable services
+systemctl disable sshd
+systemctl enable NetworkManager
+
+# enable numlock at boot
+cp $data/numlock /usr/local/bin/
+cp $data/numlock.service /etc/systemd/system/
+systemctl enable numlock
+
+# make bash xdg compliant
+mkdir -p /etc/bash/bashrc.d
+cp $data/profile_xdg.sh /etc/profile.d/
+cp $data/bashrc_xdg.sh /etc/bash/bashrc.d/
+
+# configure sudo
+cp $data/nopasswd /etc/sudoers.d/
+
+# configure grub
+cp $data/grub /etc/default/
+grub2-mkconfig -o /boot/grub2/grub.cfg
+
+} > /dev/null
+
+echo "Installation finished. You may now log out. Please run \`post_install\` as a normal user after relogging."

@@ -1,0 +1,1 @@
+%wheel ALL=(ALL:ALL) NOPASSWD: /usr/bin/dnf update, /usr/bin/mount, /usr/bin/umount, /usr/sbin/fdisk -l, /usr/sbin/updatedb
