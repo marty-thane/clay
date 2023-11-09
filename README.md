@@ -42,7 +42,7 @@ After a successful
 [minimal](https://able.bio/KY64/minimal-installation-fedora-linux--73410e6d)
 installation, go to your `$HOME` directory and do the following:
 
-1. `wget pochutina.mzf.cz/programy/CLAY/archive.tar.gz`
+1. `wget pochutina.mzf.cz/programy/clay.tar.gz`
 2. `tar xf archive.tar.gz`
 3. `sudo sh install_clay`
 
