@@ -1,0 +1,12 @@
+#!/bin/sh
+
+DEFAULT="recording.mp4"
+
+if pgrep -x "wf-recorder" > /dev/null; then
+    pkill -x wf-recorder
+    echo "recording stopped."
+else
+    filename=${1:-$DEFAULT}
+    wf-recorder -f "$filename" -r 25 &
+    echo "recording started."
+fi
