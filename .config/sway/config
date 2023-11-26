@@ -107,6 +107,6 @@ input type:touchpad {
 exec_always --no-startup-id autotiling -l 2
 # exec_always --no-startup-id devmon --unmount-on-exit
 exec_always --no-startup-id pipewire-pulse
-exec --no-startup-id gammastep -O 4500
+exec --no-startup-id gammastep -O 3000
 
 include /etc/sway/config.d/*
