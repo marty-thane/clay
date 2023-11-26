@@ -34,7 +34,7 @@ bindsym $mod+Shift+ccaron move container to workspace number 4
 bindsym $mod+q kill
 bindsym $mod+w fullscreen
 
-bindsym $mod+r reload
+bindsym $mod+Shift+r reload
 bindsym $mod+Shift+e exit
 
 bindsym $mod+Shift+space floating toggle
